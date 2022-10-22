@@ -15,7 +15,7 @@ runs:
   steps:
     - name: Install graudit
       run: |
-        git clone --depth 1 --branch v${{ inputs.version }} git@github.com:wireghoul/graudit.git
-        echo "$(pwd)" >> $GITHUB_PATH
-        echo "GRDIR=$(pwd)/signatures" >> $GITHUB_ENV
+        git clone --depth 1 --branch v${{ inputs.version }} https://github.com/wireghoul/graudit.git
+        echo "${{ github.action_path }}/graudit" >> $GITHUB_PATH
+        echo "GRDIR=$(pwd)/graudit/signatures" >> $GITHUB_ENV
       shell: bash
