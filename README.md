@@ -33,12 +33,12 @@ jobs:
         with:
           version: 3.4
       - name: Print version
-        run: graudit --version
+        run: graudit -v
 ```
 
 ### Result
 
 ```shell
-Run graudit --version
-v3.4
+Run graudit -v
+graudit version: 3.4
 ```
