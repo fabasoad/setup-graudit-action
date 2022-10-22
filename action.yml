@@ -1,0 +1,21 @@
+---
+name: 'Setup graudit'
+author: Yevhen Fabizhevskyi
+description: 'This action installs graudit CLI tool.'
+branding:
+  icon: terminal
+  color: gray-dark
+inputs:
+  version:
+    description: 'graudit version.'
+    required: false
+    default: '3.4'
+runs:
+  using: 'composite'
+  steps:
+    - name: Install graudit
+      run: |
+        git clone --depth 1 --branch v${{ inputs.version }} git@github.com:wireghoul/graudit.git
+        echo "$(pwd)" >> $GITHUB_PATH
+        echo "GRDIR=$(pwd)/signatures" >> $GITHUB_ENV
+      shell: bash
