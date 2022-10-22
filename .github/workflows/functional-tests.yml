@@ -25,6 +25,6 @@ jobs:
           version: ${{ matrix.version }}
       - name: Print version
         run: |
-          echo "PATH: $PATH"
+          ls -A /home/runner/work/setup-graudit-action/setup-graudit-action/./
           graudit -v
         shell: bash
