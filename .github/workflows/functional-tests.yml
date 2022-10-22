@@ -24,5 +24,7 @@ jobs:
         with:
           version: ${{ matrix.version }}
       - name: Print version
-        run: graudit -v
+        run: |
+          echo "PATH: $PATH"
+          graudit -v
         shell: bash
