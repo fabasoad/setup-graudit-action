@@ -24,7 +24,5 @@ jobs:
         with:
           version: ${{ matrix.version }}
       - name: Print version
-        run: |
-          ls -A /home/runner/work/setup-graudit-action/setup-graudit-action/./
-          graudit -v
+        run: graudit -v
         shell: bash
