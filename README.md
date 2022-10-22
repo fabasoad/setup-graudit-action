@@ -1,4 +1,4 @@
-# Setup Shakespeare action
+# Setup graudit action
 
 ![Release](https://img.shields.io/github/v/release/fabasoad/setup-graudit-action?include_prereleases)
 ![Functional Tests](https://github.com/fabasoad/setup-graudit-action/workflows/Functional%20Tests/badge.svg)
