@@ -6,13 +6,16 @@
 
 This action installs [graudit](https://github.com/wireghoul/graudit) CLI tool.
 
+## Prerequisites
+
+The following tools have to be installed for successful work of this GitHub action:
+[git](https://git-scm.com).
+
 ## Inputs
 
-<!-- markdownlint-disable MD013 -->
 | Name    | Required | Description                                                                                       | Default | Possible values |
 |---------|----------|---------------------------------------------------------------------------------------------------|---------|-----------------|
 | version | No       | Version of `graudit` tool that can be found [here](https://github.com/wireghoul/graudit/releases) | `3.4`   | &lt;String&gt;  |
-<!-- markdownlint-enable MD013 -->
 
 ## Example usage
 
