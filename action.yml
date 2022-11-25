@@ -13,9 +13,26 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Install graudit
+    - name: Collect info
+      id: info
       run: |
-        git clone --depth 1 --branch v${{ inputs.version }} https://github.com/wireghoul/graudit.git
-        echo "${{ github.action_path }}/graudit" >> $GITHUB_PATH
-        echo "GRDIR=$(pwd)/graudit/signatures" >> $GITHUB_ENV
-      shell: bash
+        GRAUDIT_INSTALLED=$(if command -v graudit >/dev/null 2>&1; then echo true; else echo false; fi)
+        echo "GRAUDIT_INSTALLED=$GRAUDIT_INSTALLED" >> $GITHUB_OUTPUT
+        graudit_path="$GITHUB_WORKSPACE/graudit"
+        mkdir -p $graudit_path
+        echo "GRAUDIT_PATH=$graudit_path" >> $GITHUB_OUTPUT
+      shell: sh
+    - name: Download graudit
+      if: ${{ steps.info.outputs.GRAUDIT_INSTALLED == 'false' }}
+      uses: actions/checkout@v3
+      with:
+        repository: wireghoul/graudit
+        ref: v${{ inputs.version }}
+        fetch-depth: 1
+        path: graudit
+    - name: Install graudit
+      if: ${{ steps.info.outputs.GRAUDIT_INSTALLED == 'false' }}
+      run: |
+        echo "${{ steps.info.outputs.GRAUDIT_PATH }}" >> $GITHUB_PATH
+        echo "GRDIR=${{ steps.info.outputs.GRAUDIT_PATH }}/signatures" >> $GITHUB_ENV
+      shell: sh
