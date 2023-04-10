@@ -1,5 +1,6 @@
 # Setup graudit action
 
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 ![Release](https://img.shields.io/github/v/release/fabasoad/setup-graudit-action?include_prereleases)
 ![Functional Tests](https://github.com/fabasoad/setup-graudit-action/workflows/Functional%20Tests/badge.svg)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/fabasoad/setup-graudit-action/main.svg)](https://results.pre-commit.ci/latest/github/fabasoad/setup-graudit-action/main)
@@ -15,7 +16,7 @@ The following tools have to be installed for successful work of this GitHub acti
 
 | Name    | Required | Description                                                                                       | Default | Possible values |
 |---------|----------|---------------------------------------------------------------------------------------------------|---------|-----------------|
-| version | No       | Version of `graudit` tool that can be found [here](https://github.com/wireghoul/graudit/releases) | `3.4`   | &lt;String&gt;  |
+| version | No       | Version of `graudit` tool that can be found [here](https://github.com/wireghoul/graudit/releases) | `3.5`   | &lt;String&gt;  |
 
 ## Example usage
 
@@ -43,5 +44,5 @@ jobs:
 
 ```shell
 Run graudit -v
-graudit version: 3.4
+graudit version: 3.5
 ```
