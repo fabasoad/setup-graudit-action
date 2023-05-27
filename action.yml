@@ -1,17 +1,17 @@
 ---
-name: 'Setup graudit'
+name: "Setup graudit"
 author: Yevhen Fabizhevskyi
-description: 'This action installs graudit CLI tool.'
+description: "This action installs graudit CLI tool."
 branding:
   icon: terminal
   color: gray-dark
 inputs:
   version:
-    description: 'graudit version.'
+    description: "graudit version."
     required: false
-    default: '3.5'
+    default: "3.5"
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Collect info
       id: info
