@@ -22,7 +22,7 @@ jobs:
         version: ["3.5", "3.4", "3.3", "3.2", "3.1"]
     runs-on: ${{ matrix.os }}-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./
         with:
           version: ${{ matrix.version }}

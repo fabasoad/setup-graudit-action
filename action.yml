@@ -24,7 +24,7 @@ runs:
       shell: sh
     - name: Download graudit
       if: ${{ steps.info.outputs.GRAUDIT_INSTALLED == 'false' }}
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: wireghoul/graudit
         ref: v${{ inputs.version }}
