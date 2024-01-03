@@ -22,8 +22,10 @@ jobs:
         version: ["3.5", "3.4", "3.3", "3.2", "3.1"]
     runs-on: ${{ matrix.os }}-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
+      - name: Setup graudit
+        uses: ./
         with:
           version: ${{ matrix.version }}
       - name: Print version
