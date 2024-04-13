@@ -9,7 +9,7 @@ inputs:
   version:
     description: "graudit version."
     required: false
-    default: "3.5"
+    default: "3.6"
 runs:
   using: "composite"
   steps:
