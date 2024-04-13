@@ -18,7 +18,7 @@ The following tools have to be installed for successful work of this GitHub acti
 <!-- prettier-ignore-start -->
 | Name    | Required | Description                                                                                       | Default | Possible values |
 |---------|----------|---------------------------------------------------------------------------------------------------|---------|-----------------|
-| version | No       | Version of `graudit` tool that can be found [here](https://github.com/wireghoul/graudit/releases) | `3.5`   | &lt;String&gt;  |
+| version | No       | Version of `graudit` tool that can be found [here](https://github.com/wireghoul/graudit/releases) | `3.6`   | &lt;String&gt;  |
 <!-- prettier-ignore-end -->
 
 ## Example usage
@@ -35,10 +35,10 @@ jobs:
     name: graudit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
-      - uses: fabasoad/setup-graudit-action@main
+      - uses: actions/checkout@v4
+      - uses: fabasoad/setup-graudit-action@v0
         with:
-          version: 3.4
+          version: 3.6
       - name: Print version
         run: graudit -v
 ```
@@ -47,5 +47,5 @@ jobs:
 
 ```shell
 Run graudit -v
-graudit version: 3.5
+graudit version: 3.6
 ```
