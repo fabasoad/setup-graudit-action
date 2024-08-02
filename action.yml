@@ -16,14 +16,14 @@ runs:
     - name: Collect info
       id: info
       run: |
-        GRAUDIT_INSTALLED=$(if command -v graudit >/dev/null 2>&1; then echo true; else echo false; fi)
-        echo "GRAUDIT_INSTALLED=${GRAUDIT_INSTALLED}" >> "$GITHUB_OUTPUT"
+        graudit_installed=$(if command -v graudit >/dev/null 2>&1; then echo true; else echo false; fi)
+        echo "graudit-installed=${graudit_installed}" >> "$GITHUB_OUTPUT"
         graudit_path="${GITHUB_WORKSPACE}/graudit"
         mkdir -p "${graudit_path}"
-        echo "GRAUDIT_PATH=${graudit_path}" >> "$GITHUB_OUTPUT"
+        echo "graudit-path=${graudit_path}" >> "$GITHUB_OUTPUT"
       shell: sh
     - name: Download graudit
-      if: ${{ steps.info.outputs.GRAUDIT_INSTALLED == 'false' }}
+      if: ${{ steps.info.outputs.graudit-installed == 'false' }}
       uses: actions/checkout@v4
       with:
         repository: wireghoul/graudit
@@ -31,8 +31,8 @@ runs:
         fetch-depth: 1
         path: graudit
     - name: Install graudit
-      if: ${{ steps.info.outputs.GRAUDIT_INSTALLED == 'false' }}
+      if: ${{ steps.info.outputs.graudit-installed == 'false' }}
       run: |
-        echo "${{ steps.info.outputs.GRAUDIT_PATH }}" >> "$GITHUB_PATH"
-        echo "GRDIR=${{ steps.info.outputs.GRAUDIT_PATH }}/signatures" >> "$GITHUB_ENV"
+        echo "${{ steps.info.outputs.graudit-path }}" >> "$GITHUB_PATH"
+        echo "GRDIR=${{ steps.info.outputs.graudit-path }}/signatures" >> "$GITHUB_ENV"
       shell: sh
