@@ -18,7 +18,7 @@ The following tools have to be installed for successful work of this GitHub acti
 <!-- prettier-ignore-start -->
 | Name    | Required | Description                                                                                       | Default | Possible values |
 |---------|----------|---------------------------------------------------------------------------------------------------|---------|-----------------|
-| version | No       | Version of `graudit` tool that can be found [here](https://github.com/wireghoul/graudit/releases) | `3.6`   | &lt;String&gt;  |
+| version | No       | Version of `graudit` tool that can be found [here](https://github.com/wireghoul/graudit/releases) | `3.7`   | &lt;String&gt;  |
 <!-- prettier-ignore-end -->
 
 ## Example usage
