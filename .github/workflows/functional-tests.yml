@@ -4,23 +4,44 @@ name: Functional Tests
 on: # yamllint disable-line rule:truthy
   push:
     branches:
-      - "main"
+      - main
   pull_request:
+    paths:
+      - .github/workflows/functional-tests.yml
+      - action.yml
+  schedule:
+    # Every Friday at 09:00 JST
+    - cron: "0 0 * * 5"
+  workflow_dispatch: {}
 
 defaults:
   run:
     shell: sh
 
 jobs:
-  functional_tests:
+  get-versions:
+    name: Get 5 latest versions
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      versions: ${{ steps.prepare-list.outputs.versions }}
+    steps:
+      - name: Prepare list
+        id: prepare-list
+        run: |
+          url="https://api.github.com/repos/wireghoul/graudit/releases"
+          versions=$(curl -s "${url}" | jq -c '[.[0:5][].tag_name]')
+          echo "versions=${versions}" >> "$GITHUB_OUTPUT"
+  setup-graudit:
     name: Setup graudit
+    needs: [get-versions]
+    runs-on: ${{ matrix.os }}-latest
     timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
         os: ["ubuntu", "windows", "macos"]
-        version: ["3.6", "3.5", "3.4", "3.3", "3.2"]
-    runs-on: ${{ matrix.os }}-latest
+        version: ${{ fromJSON(needs.get-versions.outputs.versions) }}
     steps:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
