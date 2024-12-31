@@ -40,7 +40,7 @@ jobs:
           RELEASES_AMOUNT: "3"
         run: |
           versions=$(echo '${{ steps.github-releases.outputs.releases }}' \
-            | jq -c -r --arg n "${RELEASES_AMOUNT}" '[.[0:($n | tonumber)][].tag_name] | map(sub("^v"; "")) | . += ["latest"]')
+            | jq -c -r --arg n "${RELEASES_AMOUNT}" '.[0:($n | tonumber)] | map(sub("^v"; "")) | . += ["latest"]')
           echo "versions=${versions}" >> "$GITHUB_OUTPUT"
   setup-graudit:
     name: Setup graudit

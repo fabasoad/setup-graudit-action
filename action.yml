@@ -25,7 +25,7 @@ inputs:
 outputs:
   installed:
     description: Whether graudit was installed or not.
-    value: "${{ steps.install-jolie.outcome == 'success' }}"
+    value: "${{ steps.install-graudit.outcome == 'success' }}"
 runs:
   using: "composite"
   steps:
@@ -61,6 +61,7 @@ runs:
 
     - name: Install graudit
       if: ${{ steps.info.outputs.bin-installed == 'false' }}
+      id: install-graudit
       run: |
         echo "${{ steps.info.outputs.bin-path }}" >> "$GITHUB_PATH"
         echo "GRDIR=${{ steps.info.outputs.bin-path }}/signatures" >> "$GITHUB_ENV"

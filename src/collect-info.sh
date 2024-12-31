@@ -23,7 +23,7 @@ main() {
   fi
   echo "bin-installed=${bin_installed}" >> $GITHUB_OUTPUT
 
-  bin_dir="graudit_$(date +%s%6N)"
+  bin_dir="graudit_$(date +%s)"
   echo "bin-dir=${bin_dir}" >> "$GITHUB_OUTPUT"
 
   bin_path="$GITHUB_WORKSPACE/${bin_dir}"
