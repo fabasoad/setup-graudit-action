@@ -30,6 +30,8 @@ jobs:
       - name: Get releases
         id: github-releases
         uses: yakubique/github-releases@v1.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           repository: "wireghoul/graudit"
       - name: Prepare list
