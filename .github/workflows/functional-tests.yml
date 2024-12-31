@@ -34,6 +34,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           repository: "wireghoul/graudit"
+          sort: "desc"
       - name: Prepare list
         id: prepare-list
         env:
