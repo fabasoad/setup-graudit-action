@@ -12,7 +12,3 @@ log() {
 log_info() {
   log "info" "${1}"
 }
-
-log_debug() {
-  log "debug" "${1}"
-}
