@@ -66,3 +66,7 @@ runs:
         echo "${{ steps.info.outputs.bin-path }}" >> "$GITHUB_PATH"
         echo "GRDIR=${{ steps.info.outputs.bin-path }}/signatures" >> "$GITHUB_ENV"
       shell: sh
+
+    - name: Print version
+      run: graudit -v
+      shell: sh
