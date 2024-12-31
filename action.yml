@@ -7,32 +7,61 @@ branding:
   color: gray-dark
 inputs:
   version:
-    description: "graudit version."
+    description: graudit version. Defaults to the latest version.
     required: false
-    default: "3.7"
+    default: "latest"
+  force:
+    description: |
+      If "false" skips installation if graudit is already installed. If "true"
+      installs graudit in any case. Defaults to "false".
+    required: false
+    default: "false"
+  github-token:
+    description: |
+      GitHub token that is used to send requests to GitHub API such as getting
+      latest release. Defaults to the token provided by GitHub Actions environment.
+    required: false
+    default: ${{ github.token }}
+outputs:
+  installed:
+    description: Whether graudit was installed or not.
+    value: "${{ steps.install-jolie.outcome == 'success' }}"
 runs:
   using: "composite"
   steps:
     - name: Collect info
       id: info
-      run: |
-        graudit_installed=$(if command -v graudit >/dev/null 2>&1; then echo true; else echo false; fi)
-        echo "graudit-installed=${graudit_installed}" >> "$GITHUB_OUTPUT"
-        graudit_path="${GITHUB_WORKSPACE}/graudit"
-        mkdir -p "${graudit_path}"
-        echo "graudit-path=${graudit_path}" >> "$GITHUB_OUTPUT"
+      env:
+        INPUT_FORCE: "${{ inputs.force }}"
+      run: ./collect-info.sh "${INPUT_FORCE}"
       shell: sh
+      working-directory: "${{ github.action_path }}/src"
+
+    - name: Setup jq
+      if: ${{ steps.info.outputs.bin-installed == 'false' }}
+      uses: dcarbone/install-jq-action@v3
+
+    - name: Get latest release
+      if: ${{ steps.info.outputs.bin-installed == 'false' && inputs.version == 'latest' }}
+      id: latest-release
+      env:
+        INPUT_GITHUB_TOKEN: "${{ inputs.github-token }}"
+      run: ./get-latest-release.sh "wireghoul/graudit" "${INPUT_GITHUB_TOKEN}"
+      shell: sh
+      working-directory: "${{ github.action_path }}/src"
+
     - name: Download graudit
-      if: ${{ steps.info.outputs.graudit-installed == 'false' }}
+      if: ${{ steps.info.outputs.bin-installed == 'false' }}
       uses: actions/checkout@v4
       with:
-        repository: wireghoul/graudit
-        ref: v${{ inputs.version }}
+        repository: "wireghoul/graudit"
+        ref: ${{ format('v{0}', inputs.version == 'latest' && steps.latest-release.outputs.version || inputs.version) }}
         fetch-depth: 1
-        path: graudit
+        path: ${{ steps.info.outputs.bin-dir }}
+
     - name: Install graudit
-      if: ${{ steps.info.outputs.graudit-installed == 'false' }}
+      if: ${{ steps.info.outputs.bin-installed == 'false' }}
       run: |
-        echo "${{ steps.info.outputs.graudit-path }}" >> "$GITHUB_PATH"
-        echo "GRDIR=${{ steps.info.outputs.graudit-path }}/signatures" >> "$GITHUB_ENV"
+        echo "${{ steps.info.outputs.bin-path }}" >> "$GITHUB_PATH"
+        echo "GRDIR=${{ steps.info.outputs.bin-path }}/signatures" >> "$GITHUB_ENV"
       shell: sh

@@ -8,6 +8,7 @@ on: # yamllint disable-line rule:truthy
   pull_request:
     paths:
       - .github/workflows/functional-tests.yml
+      - src/**
       - action.yml
   schedule:
     # Every Friday at 09:00 JST
@@ -26,11 +27,18 @@ jobs:
     outputs:
       versions: ${{ steps.prepare-list.outputs.versions }}
     steps:
+      - name: Get releases
+        id: github-releases
+        uses: yakubique/github-releases@v1.2
+        with:
+          repository: "wireghoul/graudit"
       - name: Prepare list
         id: prepare-list
+        env:
+          RELEASES_AMOUNT: "3"
         run: |
-          url="https://api.github.com/repos/wireghoul/graudit/releases"
-          versions=$(curl -s "${url}" | jq -c '[.[0:5][].tag_name] | map(sub("^v"; ""))')
+          versions=$(echo "${{ steps.github-releases.outputs.releases }}" \
+            | jq -c -r --arg n "${RELEASES_AMOUNT}" '[.releases[0:($n | tonumber)][].tag_name] | map(sub("^v"; "")) | . += ["latest"]')
           echo "versions=${versions}" >> "$GITHUB_OUTPUT"
   setup-graudit:
     name: Setup graudit
@@ -46,8 +54,53 @@ jobs:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
       - name: Setup graudit
+        id: setup-graudit
         uses: ./
         with:
           version: ${{ matrix.version }}
+      - name: Test action completion
+        run: |
+          test_equal() {
+            if [ "${2}" != "${3}" ]; then
+              echo "::error title=${1}::Expected: ${3}. Actual: ${2}."
+              exit 1
+            fi
+          }
+          test_equal "graudit should be installed" \
+            "${{ steps.setup-graudit.outputs.installed }}" \
+            "true"
       - name: Print version
         run: graudit -v
+  test-force:
+    name: Test force
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        force: ["true", "false"]
+    steps:
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
+      - name: Setup Jgraudit 1
+        id: setup-graudit-1
+        uses: ./
+      - name: Setup graudit 2
+        id: setup-graudit-2
+        uses: ./
+        with:
+          force: ${{ matrix.force }}
+      - name: Test action completion
+        run: |
+          test_equal() {
+            if [ "${2}" != "${3}" ]; then
+              echo "::error title=${1}::Expected: ${3}. Actual: ${2}."
+              exit 1
+            fi
+          }
+          test_equal "Wrong \"installed\" output from setup-graudit-1" \
+            "${{ steps.setup-graudit-1.outputs.installed }}" \
+            "true"
+          test_equal "Wrong \"installed\" output from setup-graudit-2" \
+            "${{ steps.setup-graudit-2.outputs.installed }}" \
+            "${{ matrix.force }}"
