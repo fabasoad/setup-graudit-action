@@ -21,7 +21,7 @@ defaults:
 
 jobs:
   get-versions:
-    name: Get 5 latest versions
+    name: Get 3 latest versions
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
@@ -39,8 +39,8 @@ jobs:
         env:
           RELEASES_AMOUNT: "3"
         run: |
-          versions=$(echo "${{ steps.github-releases.outputs.releases }}" \
-            | jq -c -r --arg n "${RELEASES_AMOUNT}" '[.releases[0:($n | tonumber)][].tag_name] | map(sub("^v"; "")) | . += ["latest"]')
+          versions=$(echo '${{ steps.github-releases.outputs.releases }}' \
+            | jq -c -r --arg n "${RELEASES_AMOUNT}" '[.[0:($n | tonumber)][].tag_name] | map(sub("^v"; "")) | . += ["latest"]')
           echo "versions=${versions}" >> "$GITHUB_OUTPUT"
   setup-graudit:
     name: Setup graudit
@@ -84,7 +84,7 @@ jobs:
     steps:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
-      - name: Setup Jgraudit 1
+      - name: Setup graudit 1
         id: setup-graudit-1
         uses: ./
       - name: Setup graudit 2
