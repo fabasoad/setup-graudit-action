@@ -17,7 +17,7 @@ main() {
     else
       msg="Executing forced installation."
     fi
-    log_info "graudit is found at $(which jolie). ${msg}"
+    log_info "graudit is found at $(which graudit). ${msg}"
   else
     log_info "graudit is not found. Executing installation."
   fi
