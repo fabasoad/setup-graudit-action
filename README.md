@@ -8,17 +8,42 @@
 
 This action installs [graudit](https://github.com/wireghoul/graudit) CLI tool.
 
+## Supported OS
+
+<!-- prettier-ignore-start -->
+| OS      |                    |
+|---------|--------------------|
+| Windows | :white_check_mark: |
+| Linux   | :white_check_mark: |
+| macOS   | :white_check_mark: |
+<!-- prettier-ignore-end -->
+
 ## Prerequisites
 
-The following tools have to be installed for successful work of this GitHub action:
-[git](https://git-scm.com).
+None.
 
 ## Inputs
 
+```yaml
+- uses: fabasoad/setup-graudit-action@v0
+  with:
+    # (Optional) graudit version. Defaults to the latest version.
+    version: "3.7"
+    # (Optional) If "false" skips installation if graudit is already installed.
+    # If "true" installs graudit in any case. Defaults to "false".
+    force: "false"
+    # (Optional) GitHub token that is used to send requests to GitHub API such
+    # as getting latest release. Defaults to the token provided by GitHub Actions
+    # environment.
+    github-token: "${{ github.token }}"
+```
+
+## Outputs
+
 <!-- prettier-ignore-start -->
-| Name    | Required | Description                                                                                       | Default | Possible values |
-|---------|----------|---------------------------------------------------------------------------------------------------|---------|-----------------|
-| version | No       | Version of `graudit` tool that can be found [here](https://github.com/wireghoul/graudit/releases) | `3.7`   | &lt;String&gt;  |
+| Name      | Description                          | Example |
+|-----------|--------------------------------------|---------|
+| installed | Whether graudit was installed or not | `true`  |
 <!-- prettier-ignore-end -->
 
 ## Example usage
@@ -35,10 +60,9 @@ jobs:
     name: graudit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - uses: fabasoad/setup-graudit-action@v0
         with:
-          version: 3.6
+          version: 3.7
       - name: Print version
         run: graudit -v
 ```
@@ -47,5 +71,5 @@ jobs:
 
 ```shell
 Run graudit -v
-graudit version: 3.6
+graudit version: 3.7
 ```
