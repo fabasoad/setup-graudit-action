@@ -21,7 +21,7 @@ main() {
   else
     log_info "graudit is not found. Executing installation."
   fi
-  echo "bin-installed=${bin_installed}" >> $GITHUB_OUTPUT
+  echo "bin-installed=${bin_installed}" >> "$GITHUB_OUTPUT"
 
   bin_dir="graudit_$(date +%s)"
   echo "bin-dir=${bin_dir}" >> "$GITHUB_OUTPUT"
