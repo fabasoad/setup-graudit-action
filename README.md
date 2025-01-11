@@ -20,7 +20,8 @@ This action installs [graudit](https://github.com/wireghoul/graudit) CLI tool.
 
 ## Prerequisites
 
-None.
+The following tools have to be installed for successful work of this GitHub Action:
+[curl](https://curl.se).
 
 ## Inputs
 
@@ -73,3 +74,7 @@ jobs:
 Run graudit -v
 graudit version: 3.7
 ```
+
+## Contributions
+
+![Alt](https://repobeats.axiom.co/api/embed/a34fe557eddd78e7b77a9f1237d1e1ee5c093a9d.svg "Repobeats analytics image")
