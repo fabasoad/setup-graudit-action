@@ -55,7 +55,7 @@ jobs:
         version: ${{ fromJSON(needs.get-versions.outputs.versions) }}
     steps:
       - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup graudit
         id: setup-graudit
         uses: ./
@@ -84,7 +84,7 @@ jobs:
         force: ["true", "false"]
     steps:
       - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup graudit 1
         id: setup-graudit-1
         uses: ./
