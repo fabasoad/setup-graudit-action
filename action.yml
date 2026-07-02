@@ -71,9 +71,11 @@ runs:
     - name: Install graudit
       if: ${{ steps.info.outputs.bin-installed == 'false' }}
       id: install-graudit
+      env:
+        BIN_PATH: "${{ steps.info.outputs.bin-path }}"
       run: |
-        echo "${{ steps.info.outputs.bin-path }}" >> "$GITHUB_PATH"
-        echo "GRDIR=${{ steps.info.outputs.bin-path }}/signatures" >> "$GITHUB_ENV"
+        echo "${BIN_PATH}" >> "$GITHUB_PATH"
+        echo "GRDIR=${BIN_PATH}/signatures" >> "$GITHUB_ENV"
       shell: sh
 
     - name: Print version
